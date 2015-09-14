@@ -4,6 +4,7 @@ Shell
 #### Usage
 
 ``
+
     cd <dir>
     build-sass.sh -n '<project_name>' -p '<file_prefix>'
 
@@ -12,6 +13,7 @@ Shell
 > Output structure:
 
 ``
+
     |-- sass/
     |   |-- core/
     |       |-- _<prefix>-<core_component>.scss
@@ -26,6 +28,7 @@ Shell
 > Output main.scss:
 
 ``
+
     // core
     @import "core/_<prefix>-<core_component>.scss;"
 
@@ -39,6 +42,7 @@ Shell
 > Output _file.scss:
 
 ``
+
     //
     // <project_name> <component>
     // --------------------------------------------------
