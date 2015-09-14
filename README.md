@@ -21,6 +21,7 @@ where `-p` argument represents file prefix
     |   |-- main.scss
 
 > Output main.scss:
+
 ````sass
     // core
     @import "core/_<prefix>-<core_component>.scss;"
@@ -32,6 +33,7 @@ where `-p` argument represents file prefix
     @import "elements/forms/_<prefix>-<form-element>.scss;"
 ````
 > Output _file.scss:
+
 ````sass
     //
     // <project_name> <component>
