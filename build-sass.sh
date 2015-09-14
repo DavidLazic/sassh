@@ -35,6 +35,7 @@ FORMS=(
     "form-radio"
 )
 
+# Main model 2D matrix.
 MODEL=(CORE[@] COMPONENTS[@] FORMS[@])
 
 while getopts ":n:p:" opt; do
@@ -48,13 +49,30 @@ while getopts ":n:p:" opt; do
   esac
 done
 
+# -----------------------------
+# @description
+# Build component.
+#
+# @param {Integer} | model sub-array reference
+# @param {String}  | current component name
+# @param {Array}   | components' items
+# -----------------------------
 buildComponent () {
+    declare -a component=("${!3}")
+    echo "[$(getTime)] Building $2 - ${#component[@]} items"
     for component in "${!MODEL[$1]}"
     do
         buildFile $component
     done
 }
 
+# -----------------------------
+# @description
+# Build individual ".scss" template.
+#
+# @param {String} | component name
+# @return {String}
+# -----------------------------
 buildFile () {
 cat > "_$PREFIX-$1".scss <<-EOF
 //
@@ -67,7 +85,14 @@ cat > "_$PREFIX-$1".scss <<-EOF
 EOF
 }
 
+# -----------------------------
+# @description
+# Build "main.scss" template.
+#
+# @return {String}
+# -----------------------------
 buildMain () {
+    echo "[Building] main.scss"
 cat > main.scss <<-EOF
 // core
 `for component in "${CORE[@]}"
@@ -89,15 +114,44 @@ done`
 EOF
 }
 
-mkdir sass
-cd sass
-mkdir {core,elements}
-buildMain
-cd core
-buildComponent 0
-cd ..
-cd elements
-buildComponent 1
-mkdir forms
-cd forms
-buildComponent 2
+# -----------------------------
+# @description
+# Get timestamp.
+#
+# @return {String} <hh:mm:ss [AP]M>
+# -----------------------------
+getTime() {
+  date +"%r"
+}
+
+# -----------------------------
+# @description
+# Log error.
+#
+# @param {String} | error message
+# @return {String}
+# -----------------------------
+logError () {
+    echo "${1:-"Uknown Error"}" 1>&2
+    exit 1
+}
+
+{
+    mkdir sass || logError "[Error:$LINENO] Directory '"sass"' already exists."
+} && {
+    cd sass &&
+    mkdir {core,elements} || logError "[Error:$LINENO] Directory '"core'|'elements"' already exists."
+    buildMain
+} && {
+    cd core &&
+    buildComponent 0 'Core' CORE[@] &&
+    cd ..
+} && {
+    cd elements &&
+    buildComponent 1 'Components' COMPONENTS[@] &&
+    mkdir forms || logError "[Error:$LINENO] Directory '"forms"' already exists."
+} && {
+    cd forms &&
+    buildComponent 2 'Forms' FORMS[@] &&
+    echo "Build complete."
+}
