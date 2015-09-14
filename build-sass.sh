@@ -1,39 +1,41 @@
 #!/bin/bash
 
 CORE=(
-      "global"
-      "animations"
-      "fonts"
-      "helpers"
-      "mixins"
-      "variables"
-      )
+    "global"
+    "animations"
+    "fonts"
+    "helpers"
+    "mixins"
+    "variables"
+)
 
 COMPONENTS=(
-            "wrapper"
-            "button"
-            "icon"
-            "tooltip"
-            "title"
-            "label"
-            "overlay"
-            "modal"
-            "list"
-            "loader"
-            "menu"
-            "notification"
-            "pagination"
-            )
+    "wrapper"
+    "button"
+    "icon"
+    "tooltip"
+    "title"
+    "label"
+    "overlay"
+    "modal"
+    "list"
+    "loader"
+    "menu"
+    "notification"
+    "pagination"
+)
 
 FORMS=(
-       "form-text"
-       "form-textarea"
-       "form-select"
-       "form-checkbox"
-       "form-error"
-       "form-table"
-       "form-radio"
-       )
+    "form-text"
+    "form-textarea"
+    "form-select"
+    "form-checkbox"
+    "form-error"
+    "form-table"
+    "form-radio"
+)
+
+MODEL=(CORE[@] COMPONENTS[@] FORMS[@])
 
 while getopts ":n:p:" opt; do
   case $opt in
@@ -46,35 +48,20 @@ while getopts ":n:p:" opt; do
   esac
 done
 
-buildCore () {
-    for component in "${CORE[@]}"
-    do
-        buildFile $component
-    done
-}
-
-buildElements () {
-    for component in "${COMPONENTS[@]}"
-    do
-        buildFile $component
-    done
-}
-
-buildForms () {
-    for component in "${FORMS[@]}"
+buildComponent () {
+    for component in "${!MODEL[$1]}"
     do
         buildFile $component
     done
 }
 
 buildFile () {
-    component=$1
-cat > "_$PREFIX-$component".scss <<-EOF
+cat > "_$PREFIX-$1".scss <<-EOF
 //
-// $PROJECT_NAME $component
+// $PROJECT_NAME $1
 // --------------------------------------------------
 
-.$PREFIX-$component {
+.$PREFIX-$1 {
 
 }
 EOF
@@ -107,10 +94,10 @@ cd sass
 mkdir {core,elements}
 buildMain
 cd core
-buildCore
+buildComponent 0
 cd ..
 cd elements
-buildElements
+buildComponent 1
 mkdir forms
 cd forms
-buildForms
+buildComponent 2
