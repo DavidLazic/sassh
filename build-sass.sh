@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# "sass/core/" items
 CORE=(
     "global"
     "animations"
@@ -9,6 +10,7 @@ CORE=(
     "variables"
 )
 
+# "sass/elements" items
 COMPONENTS=(
     "wrapper"
     "button"
@@ -25,6 +27,7 @@ COMPONENTS=(
     "pagination"
 )
 
+# "sass/elements/forms" items
 FORMS=(
     "form-text"
     "form-textarea"
