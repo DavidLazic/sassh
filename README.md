@@ -2,11 +2,11 @@
 Shell
 
 #### Usage
-
+````shell
     cd <dir>
     build-sass.sh -n '<project_name>' -p '<file_prefix>'
-
-where `-n` argument represents project name
+````
+where `-n` argument represents project name<br>
 where `-p` argument represents file prefix
 
 > Output structure:
@@ -21,7 +21,7 @@ where `-p` argument represents file prefix
     |   |-- main.scss
 
 > Output main.scss:
-
+````sass
     // core
     @import "core/_<prefix>-<core_component>.scss;"
 
@@ -30,9 +30,9 @@ where `-p` argument represents file prefix
 
     // forms
     @import "elements/forms/_<prefix>-<form-element>.scss;"
-
+````
 > Output _file.scss:
-
+````sass
     //
     // <project_name> <component>
     // --------------------------------------------------
@@ -40,3 +40,4 @@ where `-p` argument represents file prefix
     .<prefix>-<component> {
 
     }
+````
