@@ -43,3 +43,29 @@ where `-p` argument represents file prefix
 
     }
 ````
+
+====
+
+#### Troubleshooting:
+
+> *build-sass: command not found.*
+
+**Solutions**:
+
+ - Set script as executable
+
+    ````shell
+        cd <dir>
+        chmod +x build.sass.sh
+    ````
+
+ - Run script via interpreter
+
+     Windows/Linux/OSX
+
+     ````shell
+        bash </path/to/script> OR
+        sh </path/to/script>
+    ````
+
+*Notice*: .sh cannot be run natively via Windows command prompt.
