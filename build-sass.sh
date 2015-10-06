@@ -65,18 +65,23 @@ buildComponent () {
     echo "[$(getTime)] Building $2 - ${#component[@]} items"
     for component in "${!MODEL[$1]}"
     do
-        buildFile $component
+        if [ "$1" = "0" ];
+        then
+            buildCoreFile $component
+        else
+            buildComponentFile $component
+        fi
     done
 }
 
 # -----------------------------
 # @description
-# Build individual ".scss" template.
+# Build individual ".scss" component template.
 #
 # @param {String} | component name
 # @return {String}
 # -----------------------------
-buildFile () {
+buildComponentFile () {
 cat > "_$PREFIX-$1".scss <<-EOF
 //
 // $PROJECT_NAME $1
@@ -85,6 +90,22 @@ cat > "_$PREFIX-$1".scss <<-EOF
 .$PREFIX-$1 {
 
 }
+EOF
+}
+
+# -----------------------------
+# @description
+# Build individual ".scss" core template.
+#
+# @param {String} | component name
+# @return {String}
+# -----------------------------
+buildCoreFile () {
+cat > "_$PREFIX-$1".scss <<-EOF
+//
+// $PROJECT_NAME $1
+// --------------------------------------------------
+
 EOF
 }
 
@@ -100,19 +121,19 @@ cat > main.scss <<-EOF
 // core
 `for component in "${CORE[@]}"
 do
-    echo @import '"core/_'$PREFIX-$component'.scss;"'
+    echo @import '"core/_'$PREFIX-$component'.scss";'
 done`
 
 // elements
 `for component in "${COMPONENTS[@]}"
 do
-    echo @import '"elements/_'$PREFIX-$component'.scss;"'
+    echo @import '"elements/_'$PREFIX-$component'.scss";'
 done`
 
 // forms
 `for component in "${FORMS[@]}"
 do
-    echo @import '"elements/forms/_'$PREFIX-$component'.scss;"'
+    echo @import '"elements/forms/_'$PREFIX-$component'.scss";'
 done`
 EOF
 }
@@ -140,6 +161,8 @@ logError () {
 }
 
 {
+    rm -rf sass || logError "[Error:$LINENO] Cannot remove directory '"sass"'."
+} && {
     mkdir sass || logError "[Error:$LINENO] Directory '"sass"' already exists."
 } && {
     cd sass &&
