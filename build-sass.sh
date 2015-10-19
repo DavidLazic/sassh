@@ -2,12 +2,12 @@
 
 # "sass/core/" items
 CORE=(
-    "global"
-    "animations"
     "fonts"
-    "helpers"
-    "mixins"
     "variables"
+    "mixins"
+    "helpers"
+    "animations"
+    "global"
 )
 
 # "sass/elements" items
