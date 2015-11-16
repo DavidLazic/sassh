@@ -55,8 +55,8 @@ where `-p` argument represents file prefix
  - Set script as executable
 
     ````shell
-        cd <dir>
-        chmod +x build.sass.sh
+        cd <path/to/script>
+        chmod +x build-sass.sh
     ````
 
  - Run script via interpreter
