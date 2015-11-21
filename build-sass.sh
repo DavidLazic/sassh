@@ -118,22 +118,29 @@ EOF
 buildMain () {
     echo "[Building] main.scss"
 cat > main.scss <<-EOF
+@import
+
 // core
 `for component in "${CORE[@]}"
 do
-    echo @import '"core/_'$PREFIX-$component'.scss";'
+    echo '"core/_'$PREFIX-$component'",'
 done`
 
 // elements
 `for component in "${COMPONENTS[@]}"
 do
-    echo @import '"elements/_'$PREFIX-$component'.scss";'
+    echo '"elements/_'$PREFIX-$component'",'
 done`
 
 // forms
-`for component in "${FORMS[@]}"
+`for (( i=0; i<${#FORMS[@]}; i++ ));
 do
-    echo @import '"elements/forms/_'$PREFIX-$component'.scss";'
+	if [ "$i" == "$((${#FORMS[@]}-1))" ];
+	then
+    	echo '"elements/forms/_'$PREFIX-${FORMS[$i]}'";'
+    else
+    	echo '"elements/forms/_'$PREFIX-${FORMS[$i]}'",'
+    fi
 done`
 EOF
 }
